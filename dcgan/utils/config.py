@@ -4,7 +4,7 @@ import os
 
 class ConfigLoader:
     def __init__(self, path):
-        # TODO: Modify the code to account for utomated checking of the file
+        # TODO: Modify the code to account for automated checking of the file
         # in the root project dir
         if not os.path.isfile(path):
             raise FileNotFoundError('The config file could not be found at the specified path')
