@@ -13,8 +13,9 @@ sklearn = "*"
 torch = "*"
 torchvision = "*"
 pandas = "*"
-skimage = "*"
 scikit-image = "*"
+requests = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"
