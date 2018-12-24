@@ -43,7 +43,7 @@ I prefer to use Google Collaboratory for training such systems due to heavy comp
 
 ## Running the code
 
-You can find the code for the DCGAN in the jupyter notebook ```DCGAN.ipynb```. Running it should be fairly simple as the code is well-commented and explained fairly well
+You can find the code for the DCGAN in the jupyter notebook ```notebook/DCGAN.ipynb```. Running it should be fairly simple as the code is well-commented and explained fairly well
 On running the code you should expect to see the following directory structure in your current working directory
 
 |--model_data_dcgan<br/>
