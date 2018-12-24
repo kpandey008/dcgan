@@ -57,25 +57,25 @@ class MNISTDataset(Dataset):
 
     def __len__(self):
         if self.train:
-            return self.training_images.size()[0]
-        return self.test_images.size()[0]
+            return self.training_images.shape[0]
+        return self.test_images.shape[0]
 
     def __getitem__(self, index):
         sample = {}
         if self.train:
-            sample = {
-                'image': self.training_images[index, :],
-                'label': self.training_labels[index]
-            }
+            sample = (
+                self.training_images[index, :],
+                self.training_labels[index]
+            )
         else:
-            sample = {
-                'image': self.test_images[index, :],
-                'label': self.test_labels[index]
-            }
+            sample = (
+                self.test_images[index, :],
+                self.test_labels[index]
+            )
         if not self.transform:
             return sample
         
-        return self.transform(sample)
+        return (self.transform(sample[0]), sample[1])
 
     @property
     def _download_urls(self):
@@ -148,9 +148,9 @@ class MNISTDataset(Dataset):
         num_cols = int.from_bytes(data[12:16], byteorder='big')
         
         dataset = np.frombuffer(data, dtype=np.uint8, offset=16)
-        dataset = np.reshape(dataset, newshape=(num_images, num_rows * num_cols))
+        dataset = np.reshape(dataset, newshape=(num_images, 1, num_rows, num_cols))
 
-        return torch.from_numpy(dataset)
+        return torch.from_numpy(dataset).float()
 
     def _parse_label_file(self, filename):
         """
@@ -163,4 +163,4 @@ class MNISTDataset(Dataset):
         magic_number = int.from_bytes(data[:4], byteorder='big')
         assert magic_number == 2049
         labels = np.frombuffer(data, dtype=np.uint8, offset=8)
-        return torch.from_numpy(labels)
+        return torch.from_numpy(labels).float()

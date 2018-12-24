@@ -1,5 +1,6 @@
 MNIST-data/
 Papers/
+dcgan/data/
 .vscode/
 
 # Byte-compiled / optimized / DLL files
