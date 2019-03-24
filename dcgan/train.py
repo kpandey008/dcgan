@@ -6,16 +6,17 @@ from torchvision.datasets import MNIST
 from torchvision.transforms import transforms
 import torchvision.utils as vutils
 
-from utils.visualization import plot_training_images
+from utils.visualization import plot_training_images, plot_images
 from utils.config import ConfigLoader
 from loaders import mnist_loader
 from loaders.mnist import MNISTDataset
 from models.generator import Generator
 from models.discriminator import Discriminator
 
-config = ConfigLoader('config.conf')
+config = ConfigLoader('gan.conf')
 
 # plot_training_images(dataset, 64, (28, 28), shuffle=True)
+
 
 # define the weight initialization strategy
 def weight_init(m):
@@ -37,6 +38,7 @@ num_epochs = int(config.get_param_value('train', 'num_epochs'))
 
 device = torch.device('cuda:0' if (torch.cuda.is_available() and ngpu > 0) else 'cpu')
 
+# move the models to the device
 netG = Generator(ngpu, z, nfg, nc).to(device)
 netD = Discriminator(ngpu, nfd, nc).to(device)
 
@@ -136,6 +138,7 @@ for epoch_idx in range(num_epochs):
         if (iters % 500 == 0) or ((epoch_idx == num_epochs - 1) and (i == len(mnist_loader)-1)):
             with torch.no_grad():
                 fake = netG(fixed_noise).detach().cpu()
-            image_list.append(vutils.make_grid(fake, padding=2, normalize=True))
+            image_list.append(fake)
 
         iters += 1
+plot_images(image_list[-1])
